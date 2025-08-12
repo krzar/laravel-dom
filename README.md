@@ -13,7 +13,6 @@ but still you can get PHP Native classes and manipulate with them for now.
 
 #### Upcoming features
 
-- Set Elements/Nodes attributes
 - Inserting Elements/Nodes
 - Updating Elements/Nodes
 - Deleting Elements/Nodes
