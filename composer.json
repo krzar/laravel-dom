@@ -1,0 +1,32 @@
+{
+    "name": "krzar/laravel-dom",
+    "description": "Modern tool for Laravel to read and manipulate DOM Documents in Laravel style.",
+    "keywords": [
+        "laravel",
+        "dom",
+        "document",
+        "xml",
+        "html",
+        "parser",
+        "modern"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "KrZar\\LaravelDom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Krystian Zaręba"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/collections": "^12.21",
+        "ext-dom": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12"
+    }
+}
