@@ -60,12 +60,12 @@ class Query
     public function toQueryString(): string
     {
         if ($this->isSubQuery) {
-            return sprintf("%s (%s)", $this->tag, $this->getQueryStringBody());
+            return sprintf('%s (%s)', $this->tag, $this->getQueryStringBody());
         }
 
         $base = $this->isDeep ? '//' : '/';
 
-        return sprintf("%s%s[%s]", $base, $this->tag, $this->getQueryStringBody());
+        return sprintf('%s%s[%s]', $base, $this->tag, $this->getQueryStringBody());
     }
 
     private function getQueryStringBody(): string
@@ -79,9 +79,9 @@ class Query
                 continue;
             }
 
-            $query .= sprintf(" %s %s", $queryItem->connector, $queryItem->toQueryString());
+            $query .= sprintf(' %s %s', $queryItem->connector, $queryItem->toQueryString());
         }
-        
+
         return $query;
     }
 
@@ -90,8 +90,7 @@ class Query
         ?string $operator = null,
         ?string $value = null,
         ?string $connector = null,
-    ): static
-    {
+    ): static {
         if ($attribute instanceof Closure) {
             $subQuery = new Query($connector, $this->isDeep, true);
 

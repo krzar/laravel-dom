@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace KrZar\LaravelDom;
 
 use DOMDocument;
-use KrZar\LaravelDom\Query\Builder;
 
 class Document extends DocumentNode
 {
-    public function __construct(private readonly DOMDocument $domDocument) {
+    public function __construct(private readonly DOMDocument $domDocument)
+    {
         parent::__construct($this, $domDocument);
     }
 

@@ -12,8 +12,7 @@ class DocumentElement extends DocumentNode
     public function __construct(
         private readonly Document $document,
         private readonly DOMElement $domElement,
-    )
-    {
+    ) {
         parent::__construct($document, $domElement);
     }
 

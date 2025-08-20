@@ -47,7 +47,7 @@ class DocumentNode
 
     public function children(): Collection
     {
-        $children = new Collection();
+        $children = new Collection;
 
         foreach ($this->domNode->childNodes as $childNode) {
             if ($childNode instanceof DOMElement) {
@@ -87,8 +87,7 @@ class DocumentNode
         string $tag,
         \Closure $closure,
         bool $deep = false,
-    ): Builder
-    {
+    ): Builder {
         return $this->builder->query($tag, $closure, $deep);
     }
 }

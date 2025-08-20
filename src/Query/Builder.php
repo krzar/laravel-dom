@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace KrZar\LaravelDom\Query;
 
-use DOMDocument;
 use DOMElement;
 use DOMNode;
 use DOMNodeList;
@@ -23,7 +22,6 @@ class Builder
      */
     private array $queries = [];
 
-
     public function __construct(
         private readonly Document $document,
         private readonly ?DOMNode $domNode = null,
@@ -35,8 +33,7 @@ class Builder
         string $tag,
         \Closure $closure,
         bool $deep = false,
-    ): static
-    {
+    ): static {
         $itemBuilder = new Query($tag, $deep);
 
         $closure($itemBuilder);
@@ -49,9 +46,9 @@ class Builder
     public function get(): Collection
     {
         $result = $this->queryResult();
-        $collection = new Collection();
+        $collection = new Collection;
 
-        if (!$result) {
+        if (! $result) {
             return $collection;
         }
 
@@ -73,7 +70,7 @@ class Builder
     {
         $result = $this->queryResult();
 
-        if (!$result) {
+        if (! $result) {
             return null;
         }
 
