@@ -30,9 +30,11 @@ class DocumentNode
         return $this->domNode->attributes->getNamedItem($name)->textContent ?? $default;
     }
 
-    public function html(): string
+    public function html(): ?string
     {
-        return $this->document->toNative()->saveHTML($this->domNode) ?? '';
+        $html = $this->document->toNative()->saveHTML($this->domNode);
+        
+        return $html !== false ? $html : null;
     }
 
     public function toNative(): DOMNode
