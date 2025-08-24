@@ -33,7 +33,7 @@ class DocumentNode
     public function html(): ?string
     {
         $html = $this->document->toNative()->saveHTML($this->domNode);
-        
+
         return $html !== false ? $html : null;
     }
 

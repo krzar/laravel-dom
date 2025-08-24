@@ -8,7 +8,7 @@ use Closure;
 
 class Query
 {
-    /** @var QueryItem[] */
+    /** @var (QueryItem|Query)[] */
     private array $queryItems = [];
 
     public function __construct(
@@ -60,12 +60,17 @@ class Query
     public function toQueryString(): string
     {
         if ($this->isSubQuery) {
-            return sprintf('%s (%s)', $this->tag, $this->getQueryStringBody());
+            return sprintf('(%s)', $this->getQueryStringBody());
         }
 
         $base = $this->isDeep ? '//' : '/';
+        $body = $this->getQueryStringBody();
 
-        return sprintf('%s%s[%s]', $base, $this->tag, $this->getQueryStringBody());
+        if (empty($body)) {
+            return sprintf('%s%s', $base, $this->tag);
+        }
+
+        return sprintf('%s%s[%s]', $base, $this->tag, $body);
     }
 
     private function getQueryStringBody(): string
@@ -79,7 +84,8 @@ class Query
                 continue;
             }
 
-            $query .= sprintf(' %s %s', $queryItem->connector, $queryItem->toQueryString());
+            $connector = $queryItem instanceof Query ? $queryItem->tag : $queryItem->connector;
+            $query .= sprintf(' %s %s', $connector, $queryItem->toQueryString());
         }
 
         return $query;
@@ -101,7 +107,7 @@ class Query
             return $this;
         }
 
-        if ($value === null && $operator !== 'has') {
+        if ($value === null && ! in_array($operator, ['has', '!has'])) {
             $value = $operator;
             $operator = '=';
         }

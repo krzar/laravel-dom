@@ -28,7 +28,13 @@ class DocumentElement extends DocumentNode
 
     public function classes(): array
     {
-        return explode(' ', $this->className());
+        $className = $this->className();
+
+        if ($className === null) {
+            return [];
+        }
+
+        return explode(' ', $className);
     }
 
     public function tagName(): string

@@ -76,6 +76,10 @@ class Builder
 
         $item = $result->item(0);
 
+        if ($item === null) {
+            return null;
+        }
+
         if ($item instanceof DOMElement) {
             return new DocumentElement($this->document, $item);
         }
