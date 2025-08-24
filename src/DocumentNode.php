@@ -30,9 +30,11 @@ class DocumentNode
         return $this->domNode->attributes->getNamedItem($name)->textContent ?? $default;
     }
 
-    public function html(): string
+    public function html(): ?string
     {
-        return $this->document->toNative()->saveHTML($this->domNode) ?? '';
+        $html = $this->document->toNative()->saveHTML($this->domNode);
+
+        return $html !== false ? $html : null;
     }
 
     public function toNative(): DOMNode
@@ -47,7 +49,7 @@ class DocumentNode
 
     public function children(): Collection
     {
-        $children = new Collection();
+        $children = new Collection;
 
         foreach ($this->domNode->childNodes as $childNode) {
             if ($childNode instanceof DOMElement) {
@@ -87,8 +89,7 @@ class DocumentNode
         string $tag,
         \Closure $closure,
         bool $deep = false,
-    ): Builder
-    {
+    ): Builder {
         return $this->builder->query($tag, $closure, $deep);
     }
 }

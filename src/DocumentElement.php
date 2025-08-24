@@ -12,8 +12,7 @@ class DocumentElement extends DocumentNode
     public function __construct(
         private readonly Document $document,
         private readonly DOMElement $domElement,
-    )
-    {
+    ) {
         parent::__construct($document, $domElement);
     }
 
@@ -29,7 +28,13 @@ class DocumentElement extends DocumentNode
 
     public function classes(): array
     {
-        return explode(' ', $this->className());
+        $className = $this->className();
+
+        if ($className === null) {
+            return [];
+        }
+
+        return explode(' ', $className);
     }
 
     public function tagName(): string
@@ -39,9 +44,9 @@ class DocumentElement extends DocumentNode
 
     public function parent(): null|DocumentElement|DocumentNode
     {
-        $parent = $this->domElement->parentElement;
+        $parent = $this->domElement->parentNode;
 
-        if ($parent) {
+        if ($parent instanceof DOMElement) {
             return new DocumentElement($this->document, $parent);
         }
 

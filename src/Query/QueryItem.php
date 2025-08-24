@@ -33,6 +33,6 @@ readonly class QueryItem
             return $this->attribute;
         }
 
-        return '@' . $this->attribute;
+        return '@'.$this->attribute;
     }
 }
