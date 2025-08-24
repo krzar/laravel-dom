@@ -1,7 +1,8 @@
 # Laravel DOM
-![license mit](https://badgen.net/github/license/krzar/laravel-dom)
-![release](https://badgen.net/github/release/krzar/laravel-dom/main)
-![last commit](https://badgen.net/github/last-commit/krzar/laravel-dom)
+![GitHub License](https://img.shields.io/github/license/krzar/laravel-dom)
+![GitHub Release](https://img.shields.io/github/v/release/krzar/laravel-dom?cacheSeconds=300)
+![GitHub last commit](https://img.shields.io/github/last-commit/krzar/laravel-dom?cacheSeconds=300)
+![GitHub branch check runs](https://img.shields.io/github/check-runs/krzar/laravel-dom/main?cacheSeconds=300)
 
 Package allows you to query DOM Documents in Laravel style
 using functions like `where`, `orWhere`, `whereHas` etc.
