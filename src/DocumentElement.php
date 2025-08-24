@@ -44,9 +44,9 @@ class DocumentElement extends DocumentNode
 
     public function parent(): null|DocumentElement|DocumentNode
     {
-        $parent = $this->domElement->parentElement;
+        $parent = $this->domElement->parentNode;
 
-        if ($parent) {
+        if ($parent instanceof DOMElement) {
             return new DocumentElement($this->document, $parent);
         }
 
