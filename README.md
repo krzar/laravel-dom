@@ -164,6 +164,18 @@ $elements = $document->query('a', function(Query $query) {
 }, true)->get();
 ```
 
+You can also use `queryDeep` method.
+
+```php
+use KrZar\LaravelDom\Document;
+use KrZar\LaravelDom\Query\Query;
+
+$document = Document::loadHtml($html);
+$elements = $document->queryDeep('a', function(Query $query) {
+    $query->where('class', 'searched-class');
+})->get();
+```
+
 #### Look for any
 
 You can also look for any element just using `*`
