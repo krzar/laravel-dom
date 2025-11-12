@@ -43,6 +43,11 @@ class Builder
         return $this;
     }
 
+    public function queryDeep(string $tag, \Closure $closure): static
+    {
+        return $this->query($tag, $closure, true);
+    }
+
     public function get(): Collection
     {
         $result = $this->queryResult();
