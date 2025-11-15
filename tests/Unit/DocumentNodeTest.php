@@ -94,6 +94,55 @@ class DocumentNodeTest extends TestCase
         $this->assertEquals('Hello', $result->first()->text());
     }
 
+    public function test_query_deep_finds_deeply_nested_elements(): void
+    {
+        $html = '<html><body><div><article><section><p class="deep">Deeply nested</p></section></article><p class="shallow">Shallow</p></div></body></html>';
+        $document = Document::loadHtml($html);
+        $div = $document->query('div', function (Query $q): void {}, true)->first();
+
+        $this->assertNotNull($div);
+
+        $result = $div->queryDeep('p', function (Query $q): void {
+            $q->where('class', 'deep');
+        })->get();
+
+        $this->assertCount(1, $result);
+        $this->assertEquals('Deeply nested', $result->first()->text());
+    }
+
+    public function test_query_deep_finds_all_descendants(): void
+    {
+        $html = '<html><body><div><span>Level 1</span><section><span>Level 2</span><article><span>Level 3</span></article></section></div></body></html>';
+        $document = Document::loadHtml($html);
+        $div = $document->query('div', function (Query $q): void {}, true)->first();
+
+        $this->assertNotNull($div);
+
+        $result = $div->queryDeep('span', function (Query $q): void {})->get();
+
+        $this->assertCount(3, $result);
+        $this->assertEquals('Level 1', $result->get(0)->text());
+        $this->assertEquals('Level 2', $result->get(1)->text());
+        $this->assertEquals('Level 3', $result->get(2)->text());
+    }
+
+    public function test_query_deep_with_complex_conditions(): void
+    {
+        $html = '<html><body><div><p data-type="info">Info 1</p><section><p data-type="warning">Warning</p><article><p data-type="info">Info 2</p></article></section></div></body></html>';
+        $document = Document::loadHtml($html);
+        $div = $document->query('div', function (Query $q): void {}, true)->first();
+
+        $this->assertNotNull($div);
+
+        $result = $div->queryDeep('p', function (Query $q): void {
+            $q->where('data-type', 'info');
+        })->get();
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('Info 1', $result->get(0)->text());
+        $this->assertEquals('Info 2', $result->get(1)->text());
+    }
+
     public static function textContentProvider(): \Generator
     {
         yield 'simple paragraph' => [
