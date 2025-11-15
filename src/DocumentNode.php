@@ -92,4 +92,9 @@ class DocumentNode
     ): Builder {
         return $this->builder->query($tag, $closure, $deep);
     }
+
+    public function queryDeep(string $tag, \Closure $closure): Builder
+    {
+        return $this->builder->queryDeep($tag, $closure);
+    }
 }
