@@ -22,14 +22,34 @@ class Query
         return $this->handle($attribute, $operator, $value, 'and');
     }
 
+    public function whereEquals(string $attribute, string $value): static
+    {
+        return $this->where($attribute, '=', $value);
+    }
+
+    public function whereNotEquals(string $attribute, string $value): static
+    {
+        return $this->where($attribute, '!=', $value);
+    }
+
+    public function whereContains(string $attribute, string $value): static
+    {
+        return $this->where($attribute, 'contains', $value);
+    }
+
+    public function whereNotContains(string $attribute, string $value): static
+    {
+        return $this->where($attribute, '!contains', $value);
+    }
+
     public function whereHas(string $attribute): static
     {
-        return $this->handle($attribute, 'has', connector: 'and');
+        return $this->where($attribute, 'has');
     }
 
     public function whereNotHas(string $attribute): static
     {
-        return $this->handle($attribute, '!has', connector: 'and');
+        return $this->where($attribute, '!has');
     }
 
     public function orWhere(string|Closure $attribute, string $operator = '=', ?string $value = null): static
@@ -37,14 +57,34 @@ class Query
         return $this->handle($attribute, $operator, $value, 'or');
     }
 
+    public function orWhereEquals(string $attribute, string $value): static
+    {
+        return $this->orWhere($attribute, '=', $value);
+    }
+
+    public function orWhereNotEquals(string $attribute, string $value): static
+    {
+        return $this->orWhere($attribute, '!=', $value);
+    }
+
+    public function orWhereContains(string $attribute, string $value): static
+    {
+        return $this->orWhere($attribute, 'contains', $value);
+    }
+
+    public function orWhereNotContains(string $attribute, string $value): static
+    {
+        return $this->orWhere($attribute, '!contains', $value);
+    }
+
     public function orWhereHas(string $attribute): static
     {
-        return $this->handle($attribute, 'has', connector: 'or');
+        return $this->orWhere($attribute, 'has');
     }
 
     public function orWhereNotHas(string $attribute): static
     {
-        return $this->handle($attribute, '!has', connector: 'or');
+        return $this->orWhere($attribute, '!has');
     }
 
     public function whereText(string $operator = '=', ?string $value = null, bool $deep = false): static
@@ -52,9 +92,50 @@ class Query
         return $this->handleText($operator, $value, $deep, 'and');
     }
 
+    public function whereTextEquals(string $value, bool $deep = false): static
+    {
+        return $this->whereText('=', $value, $deep);
+
+    }
+
+    public function whereTextNotEquals(string $value, bool $deep = false): static
+    {
+        return $this->whereText('!=', $value, $deep);
+    }
+
+    public function whereTextContains(string $value, bool $deep = false): static
+    {
+        return $this->whereText('contains', $value, $deep);
+    }
+
+    public function whereTextNotContains(string $value, bool $deep = false): static
+    {
+        return $this->whereText('!contains', $value, $deep);
+    }
+
     public function orWhereText(string $operator = '=', ?string $value = null, bool $deep = false): static
     {
         return $this->handleText($operator, $value, $deep, 'or');
+    }
+
+    public function orWhereTextEquals(string $value, bool $deep = false): static
+    {
+        return $this->orWhereText('=', $value, $deep);
+    }
+
+    public function orWhereTextNotEquals(string $value, bool $deep = false): static
+    {
+        return $this->orWhereText('!=', $value, $deep);
+    }
+
+    public function orWhereTextContains(string $value, bool $deep = false): static
+    {
+        return $this->orWhereText('contains', $value, $deep);
+    }
+
+    public function orWhereTextNotContains(string $value, bool $deep = false): static
+    {
+        return $this->orWhereText('!contains', $value, $deep);
     }
 
     public function toQueryString(): string
