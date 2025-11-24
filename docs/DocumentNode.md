@@ -90,7 +90,7 @@ Return collection of children nodes.
 
 #### Return value
 
-*Collection<[DocumentNode](DocumentNode.md) | [DocumentElement](DocumentElement.md)>*
+*Collection<int, [DocumentNode](DocumentNode.md) | [DocumentElement](DocumentElement.md)>*
 
 ### `public parent()`
 
