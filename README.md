@@ -29,6 +29,10 @@ but still you can get PHP Native classes and manipulate with them for now.
 composer require krzar/laravel-dom
 ```
 
+## Documentation
+
+Look here for every class detailed documentation: [Documentation](docs/index.md)
+
 ## Examples
 
 ### Create new Document
@@ -64,6 +68,12 @@ $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
     $query->where('class', '=', 'searched-class');
 })->get();
+
+// OR
+
+$elements = $document->query('div', function(Query $query) {
+    $query->whereEquals('class', 'searched-class');
+})->get();
 ```
 
 #### contains
@@ -76,6 +86,13 @@ $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
     $query->where('class', 'contains', 'searched-class');
 })->get();
+
+// OR
+
+$elements = $document->query('div', function(Query $query) {
+    $query->whereContains('class', 'searched-class');
+})->get();
+
 ```
 
 #### not equals
@@ -88,6 +105,12 @@ $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
     $query->where('class', '!=', 'searched-class');
 })->get();
+
+// OR
+
+$elements = $document->query('div', function(Query $query) {
+    $query->whereNotEquals('class', 'searched-class');
+})->get();
 ```
 
 #### not contains
@@ -99,6 +122,12 @@ use KrZar\LaravelDom\Query\Query;
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
     $query->where('class', '!contains', 'searched-class');
+})->get();
+
+// OR
+
+$elements = $document->query('div', function(Query $query) {
+    $query->whereNotContains('class', 'searched-class');
 })->get();
 ```
 
@@ -144,7 +173,7 @@ $elements = $document->query('div', function(Query $query) {
         ->orWhereHas('id');
 })->query('a', function(Query $query) {
     $query->whereHas('href')
-        ->where('class', 'link');
+        ->whereContains('class', 'link');
 })->get();
 ```
 
@@ -200,10 +229,57 @@ use KrZar\LaravelDom\Query\Query;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('span', function(Query $query) {
-    $query->where('class', 'searched-class')
+    $query->whereContains('class', 'searched-class')
         ->orWhere(function (Query $subQuery) {
-            $subQuery->where('class', 'another-class')
-                ->where('title', 'some-title');
+            $subQuery->whereNotContains('class', 'another-class')
+                ->whereEquals('title', 'some-title');
         });
 })->get();
+```
+
+#### Query text content
+
+You can also query text content of an element.
+
+```php
+use KrZar\LaravelDom\Document;
+use KrZar\LaravelDom\Query\Query;
+
+$document = Document::loadHtml($html);
+$elements = $document->query('div', function(Query $query) {
+    $query->where('class', 'contains', 'searched-class')
+        ->whereText('Some text');
+}
+)->get();
+```
+
+##### Available text methods
+
+- `whereText`
+- `whereTextEquals`
+- `whereTextNotEquals`
+- `whereTextContains`
+- `whereTextNotContains`
+- `orWhereText`
+- `orWhereTextEquals`
+- `orWhereTextNotEquals`
+- `orWhereTextContains`
+- `orWhereTextNotContains`
+
+By default these methods search only for text content of an element, not for element children.
+
+To search deep for any child (XPath **//**) you need to add true on the end of the method.
+
+For example:
+
+```php
+use KrZar\LaravelDom\Document;
+use KrZar\LaravelDom\Query\Query;
+
+$document = Document::loadHtml($html);
+$elements = $document->query('div', function(Query $query) {
+    $query->where('class', 'contains', 'searched-class')
+        ->whereTextContains('Some text', true);
+}
+)->get();
 ```

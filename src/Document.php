@@ -13,7 +13,7 @@ class Document extends DocumentNode
         parent::__construct($this, $domDocument);
     }
 
-    public static function loadHtml(string $html, $version = '1.0', $encoding = ''): Document
+    public static function loadHtml(string $html, string $version = '1.0', string $encoding = ''): Document
     {
         $domDocument = new DOMDocument($version, $encoding);
 
@@ -24,7 +24,7 @@ class Document extends DocumentNode
         return new self($domDocument);
     }
 
-    public static function loadXml(string $xml, $version = '1.0', $encoding = ''): Document
+    public static function loadXml(string $xml, string $version = '1.0', string $encoding = ''): Document
     {
         $domDocument = new DOMDocument($version, $encoding);
 

@@ -26,15 +26,18 @@ class DocumentElement extends DocumentNode
         return $this->attribute('class');
     }
 
-    public function classes(): array
+    /**
+     * @return Collection<int, string>
+     */
+    public function classes(): Collection
     {
         $className = $this->className();
 
-        if ($className === null) {
-            return [];
+        if (empty($className)) {
+            return collect();
         }
 
-        return explode(' ', $className);
+        return collect(explode(' ', $className));
     }
 
     public function tagName(): string
@@ -53,6 +56,9 @@ class DocumentElement extends DocumentNode
         return parent::parent();
     }
 
+    /**
+     * @return Collection<string, string>
+     */
     public function attributes(): Collection
     {
         $nativeAttributes = $this->domElement->attributes;

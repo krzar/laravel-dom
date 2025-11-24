@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KrZar\LaravelDom\Tests\Unit;
 
+use Illuminate\Support\Collection;
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\DocumentElement;
 use KrZar\LaravelDom\Query\Query;
@@ -25,7 +26,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('classesProvider')]
-    public function test_classes(string $html, string $selector, array $expectedClasses): void
+    public function test_classes(string $html, string $selector, Collection $expectedClasses): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -114,22 +115,22 @@ class DocumentElementTest extends TestCase
         yield 'multiple classes' => [
             '<html><body><div class="btn btn-primary active">Button</div></body></html>',
             'div',
-            ['btn', 'btn-primary', 'active'],
+            collect(['btn', 'btn-primary', 'active']),
         ];
         yield 'single class' => [
             '<html><body><span class="highlight">Text</span></body></html>',
             'span',
-            ['highlight'],
+            collect(['highlight']),
         ];
         yield 'no class' => [
             '<html><body><p>No class</p></body></html>',
             'p',
-            [],
+            collect(),
         ];
         yield 'empty class' => [
             '<html><body><div class="">Empty</div></body></html>',
             'div',
-            [''],
+            collect(),
         ];
     }
 
