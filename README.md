@@ -29,6 +29,10 @@ but still you can get PHP Native classes and manipulate with them for now.
 composer require krzar/laravel-dom
 ```
 
+## Documentation
+
+Look here for every class detailed documentation: [Documentation](docs/index.md)
+
 ## Examples
 
 ### Create new Document
