@@ -47,6 +47,9 @@ class DocumentNode
         return $this->document;
     }
 
+    /**
+     * @return Collection<int, DocumentElement|DocumentNode>
+     */
     public function children(): Collection
     {
         $children = new Collection;

@@ -56,6 +56,9 @@ class DocumentElement extends DocumentNode
         return parent::parent();
     }
 
+    /**
+     * @return Collection<string, string>
+     */
     public function attributes(): Collection
     {
         $nativeAttributes = $this->domElement->attributes;
