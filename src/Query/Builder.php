@@ -48,6 +48,9 @@ class Builder
         return $this->query($tag, $closure, true);
     }
 
+    /**
+     * @return Collection<int, DocumentElement|DocumentNode>
+     */
     public function get(): Collection
     {
         $result = $this->queryResult();
