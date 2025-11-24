@@ -33,7 +33,7 @@ class DocumentElement extends DocumentNode
     {
         $className = $this->className();
 
-        if ($className === null) {
+        if (empty($className)) {
             return collect();
         }
 
