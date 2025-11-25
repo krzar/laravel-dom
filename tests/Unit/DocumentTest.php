@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class DocumentTest extends TestCase
 {
     #[DataProvider('htmlDocumentProvider')]
-    public function testLoadHtml(string $html, string $expectedTag, string $expectedText): void
+    public function test_load_html(string $html, string $expectedTag, string $expectedText): void
     {
         $document = Document::loadHtml($html);
 
@@ -22,7 +22,7 @@ class DocumentTest extends TestCase
     }
 
     #[DataProvider('xmlDocumentProvider')]
-    public function testLoadXml(string $xml, string $expectedTag, string $expectedText): void
+    public function test_load_xml(string $xml, string $expectedTag, string $expectedText): void
     {
         $document = Document::loadXml($xml);
 
@@ -74,7 +74,7 @@ class DocumentTest extends TestCase
         ];
     }
 
-    public function testCreateEmptyDocument(): void
+    public function test_create_empty_document(): void
     {
         $document = Document::create('1.0', 'UTF-8');
         $nativeDoc = $document->toNative();
@@ -83,7 +83,7 @@ class DocumentTest extends TestCase
         $this->assertEquals('UTF-8', $nativeDoc->encoding);
     }
 
-    public function testAppendElementToDocument(): void
+    public function test_append_element_to_document(): void
     {
         $document = Document::create();
         $rootElement = $document->toNative()->createElement('root');
@@ -92,10 +92,12 @@ class DocumentTest extends TestCase
         $document->append($documentElement);
 
         $result = $document->query('root', fn ($q) => null, true)->first();
+
+        $this->assertInstanceOf(DocumentElement::class, $result);
         $this->assertEquals('root', $result->tagName());
     }
 
-    public function testPrependElementToDocument(): void
+    public function test_prepend_element_to_document(): void
     {
         $document = Document::loadHtml('<html><body><div>Existing</div></body></html>');
         $newElement = $document->toNative()->createElement('header');

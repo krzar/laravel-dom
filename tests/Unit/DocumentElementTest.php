@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class DocumentElementTest extends TestCase
 {
     #[DataProvider('elementBasicsProvider')]
-    public function testElementBasics(string $html, string $selector, string $expectedTag, ?string $expectedId, ?string $expectedClass): void
+    public function test_element_basics(string $html, string $selector, string $expectedTag, ?string $expectedId, ?string $expectedClass): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -26,7 +26,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('classesProvider')]
-    public function testClasses(string $html, string $selector, Collection $expectedClasses): void
+    public function test_classes(string $html, string $selector, Collection $expectedClasses): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -36,7 +36,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('attributesProvider')]
-    public function testAttributes(string $html, string $selector, array $expectedAttributes): void
+    public function test_attributes(string $html, string $selector, array $expectedAttributes): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -50,7 +50,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('parentProvider')]
-    public function testParent(string $html, string $selector, ?string $expectedParentTag): void
+    public function test_parent(string $html, string $selector, ?string $expectedParentTag): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -66,7 +66,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('complexElementProvider')]
-    public function testComplexElements(string $html, string $selector, array $expectations): void
+    public function test_complex_elements(string $html, string $selector, array $expectations): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {
@@ -206,75 +206,82 @@ class DocumentElementTest extends TestCase
         ];
     }
 
-    public function testSetId(): void
+    public function test_set_id(): void
     {
         $document = Document::loadHtml('<html><body><div>Test</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $this->assertNull($element->id());
         $element->setId('new-id');
         $this->assertEquals('new-id', $element->id());
     }
 
-    public function testHasClass(): void
+    public function test_has_class(): void
     {
         $document = Document::loadHtml('<html><body><div class="btn btn-primary active">Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $this->assertTrue($element->hasClass('btn'));
         $this->assertTrue($element->hasClass('btn-primary'));
         $this->assertTrue($element->hasClass('active'));
         $this->assertFalse($element->hasClass('hidden'));
     }
 
-    public function testAddClass(): void
+    public function test_add_class(): void
     {
         $document = Document::loadHtml('<html><body><div class="btn">Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $this->assertFalse($element->hasClass('active'));
         $element->addClass('active');
         $this->assertTrue($element->hasClass('active'));
         $this->assertEquals('btn active', $element->className());
     }
 
-    public function testAddClassToElementWithoutClass(): void
+    public function test_add_class_to_element_without_class(): void
     {
         $document = Document::loadHtml('<html><body><div>Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $element->addClass('btn');
         $this->assertTrue($element->hasClass('btn'));
         $this->assertEquals('btn', $element->className());
     }
 
-    public function testRemoveClass(): void
+    public function test_remove_class(): void
     {
         $document = Document::loadHtml('<html><body><div class="btn btn-primary active">Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $this->assertTrue($element->hasClass('active'));
         $element->removeClass('active');
         $this->assertFalse($element->hasClass('active'));
         $this->assertEquals('btn btn-primary', $element->className());
     }
 
-    public function testRemoveClassRemovesOnlySpecifiedClass(): void
+    public function test_remove_class_removes_only_specified_class(): void
     {
         $document = Document::loadHtml('<html><body><div class="btn btn-primary btn-large">Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $element->removeClass('btn-primary');
         $this->assertTrue($element->hasClass('btn'));
         $this->assertTrue($element->hasClass('btn-large'));
         $this->assertFalse($element->hasClass('btn-primary'));
     }
 
-    public function testHasAttribute(): void
+    public function test_has_attribute(): void
     {
         $document = Document::loadHtml('<html><body><input type="text" name="email" required /></body></html>');
         $element = $document->query('input', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $this->assertTrue($element->hasAttribute('type'));
         $this->assertTrue($element->hasAttribute('name'));
         $this->assertTrue($element->hasAttribute('required'));
@@ -282,32 +289,35 @@ class DocumentElementTest extends TestCase
         $this->assertFalse($element->hasAttribute('placeholder'));
     }
 
-    public function testSetAttribute(): void
+    public function test_set_attribute(): void
     {
         $document = Document::loadHtml('<html><body><div>Test</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $this->assertFalse($element->hasAttribute('data-role'));
         $element->setAttribute('data-role', 'button');
         $this->assertTrue($element->hasAttribute('data-role'));
         $this->assertEquals('button', $element->attribute('data-role'));
     }
 
-    public function testSetAttributeOverridesExisting(): void
+    public function test_set_attribute_overrides_existing(): void
     {
         $document = Document::loadHtml('<html><body><input type="text" /></body></html>');
         $element = $document->query('input', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $this->assertEquals('text', $element->attribute('type'));
         $element->setAttribute('type', 'email');
         $this->assertEquals('email', $element->attribute('type'));
     }
 
-    public function testRemoveAttribute(): void
+    public function test_remove_attribute(): void
     {
         $document = Document::loadHtml('<html><body><div class="container" id="main">Test</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $element);
         $this->assertTrue($element->hasAttribute('class'));
         $this->assertTrue($element->hasAttribute('id'));
 
@@ -319,18 +329,19 @@ class DocumentElementTest extends TestCase
         $this->assertFalse($element->hasAttribute('id'));
     }
 
-    public function testCreateStandaloneElement(): void
+    public function test_create_standalone_element(): void
     {
         $element = DocumentElement::create('div');
 
         $this->assertEquals('div', $element->tagName());
     }
 
-    public function testAppendChildElement(): void
+    public function test_append_child_element(): void
     {
         $document = Document::loadHtml('<html><body><div id="parent"></div></body></html>');
         $parent = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $parent);
         $child = $document->toNative()->createElement('span');
         $child->textContent = 'Child text';
         $childElement = new DocumentElement($document, $child);
@@ -341,11 +352,12 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('Child text', $result->text());
     }
 
-    public function testPrependChildElement(): void
+    public function test_prepend_child_element(): void
     {
         $document = Document::loadHtml('<html><body><div id="parent"><p>Existing</p></div></body></html>');
         $parent = $document->query('div', fn ($q) => null, true)->first();
 
+        $this->assertInstanceOf(DocumentElement::class, $parent);
         $child = $document->toNative()->createElement('span');
         $child->textContent = 'First child';
         $childElement = new DocumentElement($document, $child);
@@ -354,17 +366,21 @@ class DocumentElementTest extends TestCase
 
         $children = $parent->children()->filter(fn ($child) => $child instanceof DocumentElement);
         $firstChild = $children->first();
+
+        $this->assertInstanceOf(DocumentElement::class, $firstChild);
         $this->assertEquals('span', $firstChild->tagName());
         $this->assertEquals('First child', $firstChild->text());
     }
 
-    public function testRemoveElement(): void
+    public function test_remove_element(): void
     {
         $document = Document::loadHtml('<html><body><div><span id="to-remove">Remove me</span><p>Keep me</p></div></body></html>');
         $element = $document->query('span', fn ($q) => null, true)->first();
+
+        $this->assertInstanceOf(DocumentElement::class, $element);
+
         $parent = $element->parent();
 
-        $this->assertNotNull($element);
         $element->remove();
 
         $result = $parent->query('span', fn ($q) => null, true)->first();

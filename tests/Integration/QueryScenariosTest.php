@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class QueryScenariosTest extends TestCase
 {
     #[DataProvider('realWorldHtmlProvider')]
-    public function testRealWorldQueries(string $html, callable $queryBuilder, array $expectedResults): void
+    public function test_real_world_queries(string $html, callable $queryBuilder, array $expectedResults): void
     {
         $document = Document::loadHtml($html);
         $results = $queryBuilder($document);
@@ -40,7 +40,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('formQueryProvider')]
-    public function testFormQueries(string $html, callable $queryBuilder, array $expectedInputs): void
+    public function test_form_queries(string $html, callable $queryBuilder, array $expectedInputs): void
     {
         $document = Document::loadHtml($html);
         $inputs = $queryBuilder($document);
@@ -61,7 +61,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('navigationQueryProvider')]
-    public function testNavigationQueries(string $html, callable $queryBuilder, array $expectedLinks): void
+    public function test_navigation_queries(string $html, callable $queryBuilder, array $expectedLinks): void
     {
         $document = Document::loadHtml($html);
         $links = $queryBuilder($document);
@@ -76,7 +76,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('deepSearchProvider')]
-    public function testDeepSearchQueries(string $html, callable $queryBuilder, int $expectedCount, array $expectedTexts): void
+    public function test_deep_search_queries(string $html, callable $queryBuilder, int $expectedCount, array $expectedTexts): void
     {
         $document = Document::loadHtml($html);
         $results = $queryBuilder($document);
@@ -89,7 +89,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('conditionalQueryProvider')]
-    public function testConditionalQueries(string $html, callable $queryBuilder, array $expectedElements): void
+    public function test_conditional_queries(string $html, callable $queryBuilder, array $expectedElements): void
     {
         $document = Document::loadHtml($html);
         $results = $queryBuilder($document);
@@ -267,7 +267,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('searchModeProvider')]
-    public function testShallowVsDeepSearch(string $html, string $tag, bool $deep, int $expectedCount): void
+    public function test_shallow_vs_deep_search(string $html, string $tag, bool $deep, int $expectedCount): void
     {
         $document = Document::loadHtml($html);
         $result = $document->query($tag, function (Query $q): void {}, $deep)->get();
@@ -276,7 +276,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('malformedHtmlProvider')]
-    public function testMalformedHtmlHandling(string $html, string $tag, int $minExpectedCount): void
+    public function test_malformed_html_handling(string $html, string $tag, int $minExpectedCount): void
     {
         $document = Document::loadHtml($html);
         $result = $document->query($tag, function (Query $q): void {}, true)->get();
@@ -344,7 +344,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('complexSubqueryProvider')]
-    public function testComplexSubqueries(string $html, callable $queryBuilder, int $expectedCount, array $expectedTexts): void
+    public function test_complex_subqueries(string $html, callable $queryBuilder, int $expectedCount, array $expectedTexts): void
     {
         $document = Document::loadHtml($html);
         $results = $queryBuilder($document);
@@ -357,7 +357,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('advancedLogicProvider')]
-    public function testAdvancedLogicQueries(string $html, callable $queryBuilder, array $expectedResults): void
+    public function test_advanced_logic_queries(string $html, callable $queryBuilder, array $expectedResults): void
     {
         $document = Document::loadHtml($html);
         $results = $queryBuilder($document);
@@ -516,7 +516,7 @@ class QueryScenariosTest extends TestCase
     }
 
     #[DataProvider('multiLevelQueryProvider')]
-    public function testMultiLevelQueries(string $html, callable $queryBuilder, array $expectedResults): void
+    public function test_multi_level_queries(string $html, callable $queryBuilder, array $expectedResults): void
     {
         $document = Document::loadHtml($html);
         $results = $queryBuilder($document);

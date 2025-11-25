@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class QueryTest extends TestCase
 {
     #[DataProvider('basicQueryProvider')]
-    public function testBasicWhereQueries(string $tag, bool $deep, string $attribute, string $operator, ?string $value, string $expected): void
+    public function test_basic_where_queries(string $tag, bool $deep, string $attribute, string $operator, ?string $value, string $expected): void
     {
         $query = new Query($tag, $deep);
         $query->where($attribute, $operator, $value);
@@ -20,7 +20,7 @@ class QueryTest extends TestCase
     }
 
     #[DataProvider('attributeExistenceProvider')]
-    public function testAttributeExistenceQueries(string $tag, string $attribute, string $method, string $expected): void
+    public function test_attribute_existence_queries(string $tag, string $attribute, string $method, string $expected): void
     {
         $query = new Query($tag, false);
         $query->$method($attribute);
@@ -29,7 +29,7 @@ class QueryTest extends TestCase
     }
 
     #[DataProvider('orWhereProvider')]
-    public function testOrWhereQueries(string $tag, array $conditions, string $expected): void
+    public function test_or_where_queries(string $tag, array $conditions, string $expected): void
     {
         $query = new Query($tag, false);
 
@@ -43,7 +43,7 @@ class QueryTest extends TestCase
     }
 
     #[DataProvider('textQueryProvider')]
-    public function testTextQueries(string $tag, string $operator, ?string $value, bool $deep, string $expected): void
+    public function test_text_queries(string $tag, string $operator, ?string $value, bool $deep, string $expected): void
     {
         $query = new Query($tag, false);
         $query->whereText($operator, $value, $deep);
@@ -52,7 +52,7 @@ class QueryTest extends TestCase
     }
 
     #[DataProvider('complexQueryProvider')]
-    public function testComplexQueries(string $tag, bool $deep, callable $builder, string $expected): void
+    public function test_complex_queries(string $tag, bool $deep, callable $builder, string $expected): void
     {
         $query = new Query($tag, $deep);
         $builder($query);
@@ -60,7 +60,7 @@ class QueryTest extends TestCase
         $this->assertEquals($expected, $query->toQueryString());
     }
 
-    public function testNestedQueries(): void
+    public function test_nested_queries(): void
     {
         $query = new Query('div', false);
         $query->where(function (Query $subQuery): void {

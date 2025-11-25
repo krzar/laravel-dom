@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class QueryItemTest extends TestCase
 {
     #[DataProvider('basicQueryItemProvider')]
-    public function testBasicQueryItems(string $attribute, string $operator, ?string $value, string $connector, string $expected): void
+    public function test_basic_query_items(string $attribute, string $operator, ?string $value, string $connector, string $expected): void
     {
         $queryItem = new QueryItem($attribute, $operator, $value, $connector);
 
@@ -20,7 +20,7 @@ class QueryItemTest extends TestCase
     }
 
     #[DataProvider('attributeSelectorProvider')]
-    public function testAttributeSelectors(string $attribute, string $operator, ?string $value, string $expected): void
+    public function test_attribute_selectors(string $attribute, string $operator, ?string $value, string $expected): void
     {
         $queryItem = new QueryItem($attribute, $operator, $value);
 
@@ -28,14 +28,14 @@ class QueryItemTest extends TestCase
     }
 
     #[DataProvider('operatorProvider')]
-    public function testOperators(string $operator, string $attribute, ?string $value, string $expected): void
+    public function test_operators(string $operator, string $attribute, ?string $value, string $expected): void
     {
         $queryItem = new QueryItem($attribute, $operator, $value);
 
         $this->assertEquals($expected, $queryItem->toQueryString());
     }
 
-    public function testSpecialAttributes(): void
+    public function test_special_attributes(): void
     {
         $normalizeSpaceItem = new QueryItem('normalize-space(.)', '=', 'text');
         $this->assertEquals('normalize-space(.) = "text"', $normalizeSpaceItem->toQueryString());
