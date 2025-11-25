@@ -73,4 +73,37 @@ class DocumentTest extends TestCase
             'Product Info',
         ];
     }
+
+    public function test_create_empty_document(): void
+    {
+        $document = Document::create('1.0', 'UTF-8');
+        $nativeDoc = $document->toNative();
+
+        $this->assertEquals('1.0', $nativeDoc->version);
+        $this->assertEquals('UTF-8', $nativeDoc->encoding);
+    }
+
+    public function test_append_element_to_document(): void
+    {
+        $document = Document::create();
+        $rootElement = $document->toNative()->createElement('root');
+        $documentElement = new DocumentElement($document, $rootElement);
+
+        $document->append($documentElement);
+
+        $result = $document->query('root', fn ($q) => null, true)->first();
+        $this->assertEquals('root', $result->tagName());
+    }
+
+    public function test_prepend_element_to_document(): void
+    {
+        $document = Document::loadHtml('<html><body><div>Existing</div></body></html>');
+        $newElement = $document->toNative()->createElement('header');
+        $documentElement = new DocumentElement($document, $newElement);
+
+        $document->prepend($documentElement);
+
+        $children = $document->children();
+        $this->assertGreaterThan(0, $children->count());
+    }
 }

@@ -205,4 +205,173 @@ class DocumentElementTest extends TestCase
             ],
         ];
     }
+
+    public function test_set_id(): void
+    {
+        $document = Document::loadHtml('<html><body><div>Test</div></body></html>');
+        $element = $document->query('div', fn ($q) => null, true)->first();
+
+        $this->assertNull($element->id());
+        $element->setId('new-id');
+        $this->assertEquals('new-id', $element->id());
+    }
+
+    public function test_has_class(): void
+    {
+        $document = Document::loadHtml('<html><body><div class="btn btn-primary active">Button</div></body></html>');
+        $element = $document->query('div', fn ($q) => null, true)->first();
+
+        $this->assertTrue($element->hasClass('btn'));
+        $this->assertTrue($element->hasClass('btn-primary'));
+        $this->assertTrue($element->hasClass('active'));
+        $this->assertFalse($element->hasClass('hidden'));
+    }
+
+    public function test_add_class(): void
+    {
+        $document = Document::loadHtml('<html><body><div class="btn">Button</div></body></html>');
+        $element = $document->query('div', fn ($q) => null, true)->first();
+
+        $this->assertFalse($element->hasClass('active'));
+        $element->addClass('active');
+        $this->assertTrue($element->hasClass('active'));
+        $this->assertEquals('btn active', $element->className());
+    }
+
+    public function test_add_class_to_element_without_class(): void
+    {
+        $document = Document::loadHtml('<html><body><div>Button</div></body></html>');
+        $element = $document->query('div', fn ($q) => null, true)->first();
+
+        $element->addClass('btn');
+        $this->assertTrue($element->hasClass('btn'));
+        $this->assertEquals('btn', $element->className());
+    }
+
+    public function test_remove_class(): void
+    {
+        $document = Document::loadHtml('<html><body><div class="btn btn-primary active">Button</div></body></html>');
+        $element = $document->query('div', fn ($q) => null, true)->first();
+
+        $this->assertTrue($element->hasClass('active'));
+        $element->removeClass('active');
+        $this->assertFalse($element->hasClass('active'));
+        $this->assertEquals('btn btn-primary', $element->className());
+    }
+
+    public function test_remove_class_removes_only_specified_class(): void
+    {
+        $document = Document::loadHtml('<html><body><div class="btn btn-primary btn-large">Button</div></body></html>');
+        $element = $document->query('div', fn ($q) => null, true)->first();
+
+        $element->removeClass('btn-primary');
+        $this->assertTrue($element->hasClass('btn'));
+        $this->assertTrue($element->hasClass('btn-large'));
+        $this->assertFalse($element->hasClass('btn-primary'));
+    }
+
+    public function test_has_attribute(): void
+    {
+        $document = Document::loadHtml('<html><body><input type="text" name="email" required /></body></html>');
+        $element = $document->query('input', fn ($q) => null, true)->first();
+
+        $this->assertTrue($element->hasAttribute('type'));
+        $this->assertTrue($element->hasAttribute('name'));
+        $this->assertTrue($element->hasAttribute('required'));
+        $this->assertFalse($element->hasAttribute('disabled'));
+        $this->assertFalse($element->hasAttribute('placeholder'));
+    }
+
+    public function test_set_attribute(): void
+    {
+        $document = Document::loadHtml('<html><body><div>Test</div></body></html>');
+        $element = $document->query('div', fn ($q) => null, true)->first();
+
+        $this->assertFalse($element->hasAttribute('data-role'));
+        $element->setAttribute('data-role', 'button');
+        $this->assertTrue($element->hasAttribute('data-role'));
+        $this->assertEquals('button', $element->attribute('data-role'));
+    }
+
+    public function test_set_attribute_overrides_existing(): void
+    {
+        $document = Document::loadHtml('<html><body><input type="text" /></body></html>');
+        $element = $document->query('input', fn ($q) => null, true)->first();
+
+        $this->assertEquals('text', $element->attribute('type'));
+        $element->setAttribute('type', 'email');
+        $this->assertEquals('email', $element->attribute('type'));
+    }
+
+    public function test_remove_attribute(): void
+    {
+        $document = Document::loadHtml('<html><body><div class="container" id="main">Test</div></body></html>');
+        $element = $document->query('div', fn ($q) => null, true)->first();
+
+        $this->assertTrue($element->hasAttribute('class'));
+        $this->assertTrue($element->hasAttribute('id'));
+
+        $element->removeAttribute('class');
+        $this->assertFalse($element->hasAttribute('class'));
+        $this->assertTrue($element->hasAttribute('id'));
+
+        $element->removeAttribute('id');
+        $this->assertFalse($element->hasAttribute('id'));
+    }
+
+    public function test_create_standalone_element(): void
+    {
+        $element = DocumentElement::create('div');
+
+        $this->assertEquals('div', $element->tagName());
+    }
+
+    public function test_append_child_element(): void
+    {
+        $document = Document::loadHtml('<html><body><div id="parent"></div></body></html>');
+        $parent = $document->query('div', fn ($q) => null, true)->first();
+
+        $child = $document->toNative()->createElement('span');
+        $child->textContent = 'Child text';
+        $childElement = new DocumentElement($document, $child);
+
+        $parent->append($childElement);
+
+        $result = $parent->query('span', fn ($q) => null, true)->first();
+        $this->assertEquals('Child text', $result->text());
+    }
+
+    public function test_prepend_child_element(): void
+    {
+        $document = Document::loadHtml('<html><body><div id="parent"><p>Existing</p></div></body></html>');
+        $parent = $document->query('div', fn ($q) => null, true)->first();
+
+        $child = $document->toNative()->createElement('span');
+        $child->textContent = 'First child';
+        $childElement = new DocumentElement($document, $child);
+
+        $parent->prepend($childElement);
+
+        $children = $parent->children()->filter(fn ($child) => $child instanceof DocumentElement);
+        $firstChild = $children->first();
+        $this->assertEquals('span', $firstChild->tagName());
+        $this->assertEquals('First child', $firstChild->text());
+    }
+
+    public function test_remove_element(): void
+    {
+        $document = Document::loadHtml('<html><body><div><span id="to-remove">Remove me</span><p>Keep me</p></div></body></html>');
+        $element = $document->query('span', fn ($q) => null, true)->first();
+        $parent = $element->parent();
+
+        $this->assertNotNull($element);
+        $element->remove();
+
+        $result = $parent->query('span', fn ($q) => null, true)->first();
+        $this->assertNull($result);
+
+        $paragraph = $parent->query('p', fn ($q) => null, true)->first();
+        $this->assertNotNull($paragraph);
+        $this->assertEquals('Keep me', $paragraph->text());
+    }
 }

@@ -38,6 +38,46 @@ Create new instance from XML string.
 #### Return value
 *[Document](Document.md)*
 
+### `public static create(string $version = '1.0', string $encoding = '')`
+
+Create new empty instance of Document.
+
+#### Parameters
+
+| Type   | Name      | Description        | Default  |
+|--------|-----------|--------------------|----------|
+| string | $version  | Document version   | `'1.0'`  |
+| string | $encoding | Document encoding  | `''`     |
+
+#### Return value
+*[Document](Document.md)*
+
+### `public append(DocumentElement $documentElement)`
+
+Append given [DocumentElement](DocumentElement.md) on the end of Document.
+
+#### Parameters
+
+| Type                                  | Name             | Description               | Default  |
+|---------------------------------------|------------------|---------------------------|----------|
+| [DocumentElement](DocumentElement.md) | $documentElement | DocumentElement to append | required |
+
+#### Return value
+*void*
+
+### `public prepend(DocumentElement $documentElement)`
+
+Prepend given [DocumentElement](DocumentElement.md) on the beginning of Document.
+
+#### Parameters
+
+| Type                                  | Name             | Description                | Default  |
+|---------------------------------------|------------------|----------------------------|----------|
+| [DocumentElement](DocumentElement.md) | $documentElement | DocumentElement to prepend | required |
+
+#### Return value
+*void*
+
 ### `public toNative()`
 
 Return native DOMDocument instance.

@@ -259,4 +259,35 @@ class DocumentNodeTest extends TestCase
             null,
         ];
     }
+
+    public function test_set_text(): void
+    {
+        $document = Document::loadHtml('<html><body><div>Original text</div></body></html>');
+        $node = $document->query('div', fn ($q) => null, true)->first();
+
+        $this->assertEquals('Original text', $node->text());
+        $node->setText('New text');
+        $this->assertEquals('New text', $node->text());
+    }
+
+    public function test_set_text_replaces_all_content(): void
+    {
+        $document = Document::loadHtml('<html><body><div>Text with <span>nested</span> content</div></body></html>');
+        $node = $document->query('div', fn ($q) => null, true)->first();
+
+        $node->setText('Simple text');
+        $this->assertEquals('Simple text', $node->text());
+
+        $result = $node->query('span', fn ($q) => null, true)->first();
+        $this->assertNull($result);
+    }
+
+    public function test_document_returns_parent_document(): void
+    {
+        $document = Document::loadHtml('<html><body><div>Test</div></body></html>');
+        $node = $document->query('div', fn ($q) => null, true)->first();
+
+        $parentDocument = $node->document();
+        $this->assertSame($document, $parentDocument);
+    }
 }

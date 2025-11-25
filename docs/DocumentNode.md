@@ -45,6 +45,19 @@ Return text content of node.
 
 *string*
 
+### `public setText(string $text)`
+
+Set Node text value
+
+#### Parameters
+
+| Type   | Name  | Description | Default  |
+|--------|-------|-------------|----------| 
+| string | $text | Text to set | required |
+
+#### Return value
+*void*
+
 ### `public attribute(string $name, mixed $default = null)`
 
 Return node attribute value.

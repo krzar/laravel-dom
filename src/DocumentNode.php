@@ -25,6 +25,11 @@ class DocumentNode
         return trim($this->domNode->textContent);
     }
 
+    public function setText(string $text): void
+    {
+        $this->domNode->textContent = $text;
+    }
+
     public function attribute(string $name, mixed $default = null): mixed
     {
         return $this->domNode->attributes->getNamedItem($name)->textContent ?? $default;
