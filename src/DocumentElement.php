@@ -19,7 +19,7 @@ class DocumentElement extends DocumentNode
     public static function create(string $tag): DocumentElement
     {
         $document = Document::create();
-        $domElement = new DOMElement($tag);
+        $domElement = $document->toNative()->createElement($tag);
 
         return new self($document, $domElement);
     }
@@ -129,14 +129,14 @@ class DocumentElement extends DocumentNode
         return parent::parent();
     }
 
-    public function append(DocumentNode $documentElement): void
+    public function append(DocumentElement $documentElement): void
     {
-        $this->domElement->append($documentElement->toNative());
+        $this->domElement->append($this->importNode($documentElement));
     }
 
-    public function prepend(DocumentNode $documentElement): void
+    public function prepend(DocumentElement $documentElement): void
     {
-        $this->domElement->prepend($documentElement->toNative());
+        $this->domElement->prepend($this->importNode($documentElement));
     }
 
     public function remove(): void
