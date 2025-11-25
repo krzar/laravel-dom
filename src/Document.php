@@ -13,6 +13,13 @@ class Document extends DocumentNode
         parent::__construct($this, $domDocument);
     }
 
+    public static function create(string $version = '1.0', string $encoding = ''): Document
+    {
+        $domDocument = new DOMDocument($version, $encoding);
+
+        return new self($domDocument);
+    }
+
     public static function loadHtml(string $html, string $version = '1.0', string $encoding = ''): Document
     {
         $domDocument = new DOMDocument($version, $encoding);
@@ -33,6 +40,16 @@ class Document extends DocumentNode
         libxml_use_internal_errors($useInternalErrors);
 
         return new self($domDocument);
+    }
+
+    public function append(DocumentElement $documentElement): void
+    {
+        $this->domDocument->append($documentElement->toNative());
+    }
+
+    public function prepend(DocumentElement $documentElement): void
+    {
+        $this->domDocument->prepend($documentElement->toNative());
     }
 
     public function toNative(): DOMDocument
