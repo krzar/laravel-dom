@@ -196,12 +196,12 @@ class DocumentNodeTest extends TestCase
         yield 'div with content' => [
             '<html><body><div class="test">Hello <span>World</span></div></body></html>',
             'div',
-            '<div class="test">Hello <span>World</span></div>',
+            '<div class="test">Hello <span>World</span>',
         ];
         yield 'paragraph' => [
             '<html><body><p>Simple text</p></body></html>',
             'p',
-            '<p>Simple text</p>',
+            '<p>Simple text',
         ];
         yield 'input element' => [
             '<html><body><input type="text" value="test" /></body></html>',
