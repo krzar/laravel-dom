@@ -12,12 +12,6 @@ You can get the first queried Element/Node or Collection of Elements/Nodes.
 For now, you can only read details about a given Element / Node,
 but still you can get PHP Native classes and manipulate with them for now.
 
-#### Upcoming features
-
-- Inserting Elements/Nodes
-- Updating Elements/Nodes
-- Deleting Elements/Nodes
-
 ## Requirements
 
 - Laravel 12+
@@ -31,7 +25,7 @@ composer require krzar/laravel-dom
 
 ## Documentation
 
-Look here for every class detailed documentation: [Documentation](docs/index.md)
+Look here for every class detailed documentation, also to see how to add and manipulate DOM elements: [Documentation](docs/index.md)
 
 ## Examples
 
