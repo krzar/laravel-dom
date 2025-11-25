@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class DocumentElementTest extends TestCase
 {
     #[DataProvider('elementBasicsProvider')]
-    public function test_element_basics(string $html, string $selector, string $expectedTag, ?string $expectedId, ?string $expectedClass): void
+    public function testElementBasics(string $html, string $selector, string $expectedTag, ?string $expectedId, ?string $expectedClass): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -26,7 +26,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('classesProvider')]
-    public function test_classes(string $html, string $selector, Collection $expectedClasses): void
+    public function testClasses(string $html, string $selector, Collection $expectedClasses): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -36,7 +36,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('attributesProvider')]
-    public function test_attributes(string $html, string $selector, array $expectedAttributes): void
+    public function testAttributes(string $html, string $selector, array $expectedAttributes): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -50,7 +50,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('parentProvider')]
-    public function test_parent(string $html, string $selector, ?string $expectedParentTag): void
+    public function testParent(string $html, string $selector, ?string $expectedParentTag): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -66,7 +66,7 @@ class DocumentElementTest extends TestCase
     }
 
     #[DataProvider('complexElementProvider')]
-    public function test_complex_elements(string $html, string $selector, array $expectations): void
+    public function testComplexElements(string $html, string $selector, array $expectations): void
     {
         $document = Document::loadHtml($html);
         $element = $document->query($selector, function (Query $q): void {
@@ -206,7 +206,7 @@ class DocumentElementTest extends TestCase
         ];
     }
 
-    public function test_set_id(): void
+    public function testSetId(): void
     {
         $document = Document::loadHtml('<html><body><div>Test</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
@@ -216,7 +216,7 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('new-id', $element->id());
     }
 
-    public function test_has_class(): void
+    public function testHasClass(): void
     {
         $document = Document::loadHtml('<html><body><div class="btn btn-primary active">Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
@@ -227,7 +227,7 @@ class DocumentElementTest extends TestCase
         $this->assertFalse($element->hasClass('hidden'));
     }
 
-    public function test_add_class(): void
+    public function testAddClass(): void
     {
         $document = Document::loadHtml('<html><body><div class="btn">Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
@@ -238,7 +238,7 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('btn active', $element->className());
     }
 
-    public function test_add_class_to_element_without_class(): void
+    public function testAddClassToElementWithoutClass(): void
     {
         $document = Document::loadHtml('<html><body><div>Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
@@ -248,7 +248,7 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('btn', $element->className());
     }
 
-    public function test_remove_class(): void
+    public function testRemoveClass(): void
     {
         $document = Document::loadHtml('<html><body><div class="btn btn-primary active">Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
@@ -259,7 +259,7 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('btn btn-primary', $element->className());
     }
 
-    public function test_remove_class_removes_only_specified_class(): void
+    public function testRemoveClassRemovesOnlySpecifiedClass(): void
     {
         $document = Document::loadHtml('<html><body><div class="btn btn-primary btn-large">Button</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
@@ -270,7 +270,7 @@ class DocumentElementTest extends TestCase
         $this->assertFalse($element->hasClass('btn-primary'));
     }
 
-    public function test_has_attribute(): void
+    public function testHasAttribute(): void
     {
         $document = Document::loadHtml('<html><body><input type="text" name="email" required /></body></html>');
         $element = $document->query('input', fn ($q) => null, true)->first();
@@ -282,7 +282,7 @@ class DocumentElementTest extends TestCase
         $this->assertFalse($element->hasAttribute('placeholder'));
     }
 
-    public function test_set_attribute(): void
+    public function testSetAttribute(): void
     {
         $document = Document::loadHtml('<html><body><div>Test</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
@@ -293,7 +293,7 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('button', $element->attribute('data-role'));
     }
 
-    public function test_set_attribute_overrides_existing(): void
+    public function testSetAttributeOverridesExisting(): void
     {
         $document = Document::loadHtml('<html><body><input type="text" /></body></html>');
         $element = $document->query('input', fn ($q) => null, true)->first();
@@ -303,7 +303,7 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('email', $element->attribute('type'));
     }
 
-    public function test_remove_attribute(): void
+    public function testRemoveAttribute(): void
     {
         $document = Document::loadHtml('<html><body><div class="container" id="main">Test</div></body></html>');
         $element = $document->query('div', fn ($q) => null, true)->first();
@@ -319,14 +319,14 @@ class DocumentElementTest extends TestCase
         $this->assertFalse($element->hasAttribute('id'));
     }
 
-    public function test_create_standalone_element(): void
+    public function testCreateStandaloneElement(): void
     {
         $element = DocumentElement::create('div');
 
         $this->assertEquals('div', $element->tagName());
     }
 
-    public function test_append_child_element(): void
+    public function testAppendChildElement(): void
     {
         $document = Document::loadHtml('<html><body><div id="parent"></div></body></html>');
         $parent = $document->query('div', fn ($q) => null, true)->first();
@@ -341,7 +341,7 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('Child text', $result->text());
     }
 
-    public function test_prepend_child_element(): void
+    public function testPrependChildElement(): void
     {
         $document = Document::loadHtml('<html><body><div id="parent"><p>Existing</p></div></body></html>');
         $parent = $document->query('div', fn ($q) => null, true)->first();
@@ -358,7 +358,7 @@ class DocumentElementTest extends TestCase
         $this->assertEquals('First child', $firstChild->text());
     }
 
-    public function test_remove_element(): void
+    public function testRemoveElement(): void
     {
         $document = Document::loadHtml('<html><body><div><span id="to-remove">Remove me</span><p>Keep me</p></div></body></html>');
         $element = $document->query('span', fn ($q) => null, true)->first();
