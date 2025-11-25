@@ -342,9 +342,9 @@ class DocumentElementTest extends TestCase
         $parent = $document->query('div', fn ($q) => null, true)->first();
 
         $this->assertInstanceOf(DocumentElement::class, $parent);
-        $child = $document->toNative()->createElement('span');
-        $child->textContent = 'Child text';
-        $childElement = new DocumentElement($document, $child);
+
+        $childElement = DocumentElement::create('span');
+        $childElement->setText('Child text');
 
         $parent->append($childElement);
 
@@ -358,9 +358,9 @@ class DocumentElementTest extends TestCase
         $parent = $document->query('div', fn ($q) => null, true)->first();
 
         $this->assertInstanceOf(DocumentElement::class, $parent);
-        $child = $document->toNative()->createElement('span');
-        $child->textContent = 'First child';
-        $childElement = new DocumentElement($document, $child);
+
+        $childElement = DocumentElement::create('span');
+        $childElement->setText('First child');
 
         $parent->prepend($childElement);
 

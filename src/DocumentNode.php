@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KrZar\LaravelDom;
 
+use DOMDocument;
 use DOMElement;
 use DOMNode;
 use Illuminate\Support\Collection;
@@ -104,5 +105,19 @@ class DocumentNode
     public function queryDeep(string $tag, \Closure $closure): Builder
     {
         return $this->builder->queryDeep($tag, $closure);
+    }
+
+    protected function importNode(DocumentNode $documentNode): DOMNode
+    {
+        $node = $documentNode->toNative();
+
+        /** @var DOMDocument $targetDocument */
+        $targetDocument = $this->domNode->ownerDocument ?? $this->domNode;
+
+        if ($node->ownerDocument !== $targetDocument) {
+            return $targetDocument->importNode($node, true);
+        }
+
+        return $node;
     }
 }

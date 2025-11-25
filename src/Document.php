@@ -44,12 +44,12 @@ class Document extends DocumentNode
 
     public function append(DocumentElement $documentElement): void
     {
-        $this->domDocument->append($documentElement->toNative());
+        $this->domDocument->append($this->importNode($documentElement));
     }
 
     public function prepend(DocumentElement $documentElement): void
     {
-        $this->domDocument->prepend($documentElement->toNative());
+        $this->domDocument->prepend($this->importNode($documentElement));
     }
 
     public function toNative(): DOMDocument
