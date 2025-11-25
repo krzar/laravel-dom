@@ -38,9 +38,20 @@ class DocumentNode
 
     public function html(): ?string
     {
+        $this->document->toNative()->formatOutput = true;
+
         $html = $this->document->toNative()->saveHTML($this->domNode);
 
         return $html !== false ? $html : null;
+    }
+
+    public function xml(): ?string
+    {
+        $this->document->toNative()->formatOutput = true;
+
+        $xml = $this->document->toNative()->saveXML($this->domNode);
+
+        return $xml !== false ? $xml : null;
     }
 
     public function toNative(): DOMNode
