@@ -4,13 +4,10 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/krzar/laravel-dom?cacheSeconds=300)
 ![GitHub branch check runs](https://img.shields.io/github/check-runs/krzar/laravel-dom/main?cacheSeconds=300)
 
-Package allows you to query DOM Documents in Laravel style
+Package allows you to query, create, update and delete DOM Documents in Laravel style
 using functions like `where`, `orWhere`, `whereHas` etc.
 
 You can get the first queried Element/Node or Collection of Elements/Nodes.
-
-For now, you can only read details about a given Element / Node,
-but still you can get PHP Native classes and manipulate with them for now.
 
 ## Requirements
 
