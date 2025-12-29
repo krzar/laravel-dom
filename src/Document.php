@@ -8,7 +8,7 @@ use DOMDocument;
 
 class Document extends DocumentNode
 {
-    public function __construct(private readonly DOMDocument $domDocument)
+    private function __construct(private readonly DOMDocument $domDocument)
     {
         parent::__construct($this, $domDocument);
     }
@@ -50,6 +50,14 @@ class Document extends DocumentNode
     public function prepend(DocumentElement $documentElement): void
     {
         $this->domDocument->prepend($this->importNode($documentElement));
+    }
+
+    public function replace(DocumentElement $documentElementToReplace, DocumentElement $newElement): void
+    {
+        $this->domDocument->replaceChild(
+            $this->importNode($newElement),
+            $this->importNode($documentElementToReplace)
+        );
     }
 
     public function toNative(): DOMDocument
