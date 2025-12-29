@@ -123,7 +123,7 @@ class DocumentElement extends DocumentNode
         $parent = $this->domElement->parentNode;
 
         if ($parent instanceof DOMElement) {
-            return new DocumentElement($this->document, $parent);
+            return new self($this->document, $parent);
         }
 
         return parent::parent();
