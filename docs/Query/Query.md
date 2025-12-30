@@ -6,12 +6,10 @@ Query builder instance.
 
 ### Available query operators
 
-- `=` for equals
-- `!=` for not equals
-- `contains` for contains
-- `!contains` for not contains
-- `has` for has
-- `!has` for not has
+You can find all available operators here: [Operator](Operator.md)
+
+> [!CAUTION]
+> Using string values instead enum is deprecated and will be removed in the next major release.
 
 
 ## Methods
@@ -25,7 +23,7 @@ Basic where clause. If provided two `where` conditions will be joined with `AND`
 | Type                                           | Name       | Description                                                                                                                           | Default  |
 |------------------------------------------------|------------|---------------------------------------------------------------------------------------------------------------------------------------|----------| 
 | string or Closure<[Query](Query.md) $subQuery> | $attribute | Attribute name for condition or Closure for subquery.                                                                                 | required |
-| string                                         | $operator  | One of [available operators](#available-operators) or if `$value` is not provided this field become `value` and used operator is `=`. | `=`      |
+| [Operator](Operator.md) or string              | $operator  | One of [available operators](#available-operators) or if `$value` is not provided this field become `value` and used operator is `=`. | `=`      |
 | string or null                                 | $value     | Value to search for.                                                                                                                  | `null`   |
 
 #### Return value
@@ -129,7 +127,7 @@ If provided conditions will be joined with `OR`.
 | Type                                           | Name       | Description                                                                                                                           | Default  |
 |------------------------------------------------|------------|---------------------------------------------------------------------------------------------------------------------------------------|----------| 
 | string or Closure<[Query](Query.md) $subQuery> | $attribute | Attribute name for condition or Closure for subquery.                                                                                 | required |
-| string                                         | $operator  | One of [available operators](#available-operators) or if `$value` is not provided this field become `value` and used operator is `=`. | `=`      |
+| [Operator](Operator.md) or string              | $operator  | One of [available operators](#available-operators) or if `$value` is not provided this field become `value` and used operator is `=`. | `=`      |
 | string or null                                 | $value     | Value to search for.                                                                                                                  | `null`   |
 
 #### Return value
@@ -242,11 +240,11 @@ If provided more conditions will be joined with `AND`.
 
 #### Parameters
 
-| Type                                           | Name       | Description                                                                                                                           | Default  |
-|------------------------------------------------|------------|---------------------------------------------------------------------------------------------------------------------------------------|----------|
-| string                                         | $operator  | One of [available operators](#available-operators) or if `$value` is not provided this field become `value` and used operator is `=`. | `=`      |
-| string or null                                 | $value     | Value to search for.                                                                                                                  | `null`   |
-| bool                                           | $deep      | If `true` will search for text inside nested elements.                                                                                | `false`  |
+| Type                              | Name      | Description                                                                                                                           | Default |
+|-----------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------|---------|
+| [Operator](Operator.md) or string | $operator | One of [available operators](#available-operators) or if `$value` is not provided this field become `value` and used operator is `=`. | `=`     |
+| string or null                    | $value    | Value to search for.                                                                                                                  | `null`  |
+| bool                              | $deep     | If `true` will search for text inside nested elements.                                                                                | `false` |
 
 #### Return value
 
@@ -320,11 +318,11 @@ If provided more conditions will be joined with `OR`.
 
 #### Parameters
 
-| Type                                           | Name       | Description                                                                                                                           | Default  |
-|------------------------------------------------|------------|---------------------------------------------------------------------------------------------------------------------------------------|----------|
-| string                                         | $operator  | One of [available operators](#available-operators) or if `$value` is not provided this field become `value` and used operator is `=`. | `=`      |
-| string or null                                 | $value     | Value to search for.                                                                                                                  | `null`   |
-| bool                                           | $deep      | If `true` will search for text inside nested elements.                                                                                | `false`  |
+| Type                              | Name      | Description                                                                                                                           | Default |
+|-----------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------|---------|
+| [Operator](Operator.md) or string | $operator | One of [available operators](#available-operators) or if `$value` is not provided this field become `value` and used operator is `=`. | `=`     |
+| string or null                    | $value    | Value to search for.                                                                                                                  | `null`  |
+| bool                              | $deep     | If `true` will search for text inside nested elements.                                                                                | `false` |
 
 #### Return value
 
