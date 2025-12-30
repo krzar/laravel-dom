@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class BuilderTest extends TestCase
 {
     #[DataProvider('htmlSampleProvider')]
-    public function testQueryAndGet(string $html, string $tag, callable $queryBuilder, int $expectedCount): void
+    public function test_query_and_get(string $html, string $tag, callable $queryBuilder, int $expectedCount): void
     {
         $document = Document::loadHtml($html);
         $result = $document->query($tag, $queryBuilder, true)->get();
@@ -22,7 +22,7 @@ class BuilderTest extends TestCase
     }
 
     #[DataProvider('firstElementProvider')]
-    public function testQueryAndFirst(string $html, string $tag, callable $queryBuilder, ?string $expectedText): void
+    public function test_query_and_first(string $html, string $tag, callable $queryBuilder, ?string $expectedText): void
     {
         $document = Document::loadHtml($html);
         $result = $document->query($tag, $queryBuilder, true)->first();
@@ -36,7 +36,7 @@ class BuilderTest extends TestCase
         }
     }
 
-    public function testMultipleQueries(): void
+    public function test_multiple_queries(): void
     {
         $html = '<html><body><div class="container"><p>First</p><p class="highlight">Second</p></div></body></html>';
         $document = Document::loadHtml($html);
@@ -54,7 +54,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('Second', $result->first()->text());
     }
 
-    public function testEmptyResult(): void
+    public function test_empty_result(): void
     {
         $html = '<html><body><div>Content</div></body></html>';
         $document = Document::loadHtml($html);
