@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class DocumentNodeTest extends TestCase
 {
     #[DataProvider('textContentProvider')]
-    public function test_text(string $html, string $selector, string $expected): void
+    public function testText(string $html, string $selector, string $expected): void
     {
         $document = Document::loadHtml($html);
         $node = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -24,7 +24,7 @@ class DocumentNodeTest extends TestCase
     }
 
     #[DataProvider('attributeProvider')]
-    public function test_attribute(string $html, string $selector, string $attributeName, mixed $expected, mixed $default = null): void
+    public function testAttribute(string $html, string $selector, string $attributeName, mixed $expected, mixed $default = null): void
     {
         $document = Document::loadHtml($html);
         $node = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -34,7 +34,7 @@ class DocumentNodeTest extends TestCase
     }
 
     #[DataProvider('htmlContentProvider')]
-    public function test_html(string $html, string $selector, string $expectedContains): void
+    public function testHtml(string $html, string $selector, string $expectedContains): void
     {
         $document = Document::loadHtml($html);
         $node = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -46,7 +46,7 @@ class DocumentNodeTest extends TestCase
     }
 
     #[DataProvider('childrenProvider')]
-    public function test_children(string $html, string $selector, int $expectedCount, array $expectedTypes): void
+    public function testChildren(string $html, string $selector, int $expectedCount, array $expectedTypes): void
     {
         $document = Document::loadHtml($html);
         $node = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -62,7 +62,7 @@ class DocumentNodeTest extends TestCase
     }
 
     #[DataProvider('navigationProvider')]
-    public function test_navigation(string $html, string $selector, string $method, ?string $expectedText): void
+    public function testNavigation(string $html, string $selector, string $method, ?string $expectedText): void
     {
         $document = Document::loadHtml($html);
         $node = $document->query($selector, function (Query $q): void {}, true)->first();
@@ -78,7 +78,7 @@ class DocumentNodeTest extends TestCase
         }
     }
 
-    public function test_query(): void
+    public function testQuery(): void
     {
         $html = '<html><body><div><p class="test">Hello</p><p>World</p></div></body></html>';
         $document = Document::loadHtml($html);
@@ -94,7 +94,7 @@ class DocumentNodeTest extends TestCase
         $this->assertEquals('Hello', $result->first()->text());
     }
 
-    public function test_query_deep_finds_deeply_nested_elements(): void
+    public function testQueryDeepFindsDeeplyNestedElements(): void
     {
         $html = '<html><body><div><article><section><p class="deep">Deeply nested</p></section></article><p class="shallow">Shallow</p></div></body></html>';
         $document = Document::loadHtml($html);
@@ -110,7 +110,7 @@ class DocumentNodeTest extends TestCase
         $this->assertEquals('Deeply nested', $result->first()->text());
     }
 
-    public function test_query_deep_finds_all_descendants(): void
+    public function testQueryDeepFindsAllDescendants(): void
     {
         $html = '<html><body><div><span>Level 1</span><section><span>Level 2</span><article><span>Level 3</span></article></section></div></body></html>';
         $document = Document::loadHtml($html);
@@ -126,7 +126,7 @@ class DocumentNodeTest extends TestCase
         $this->assertEquals('Level 3', $result->get(2)->text());
     }
 
-    public function test_query_deep_with_complex_conditions(): void
+    public function testQueryDeepWithComplexConditions(): void
     {
         $html = '<html><body><div><p data-type="info">Info 1</p><section><p data-type="warning">Warning</p><article><p data-type="info">Info 2</p></article></section></div></body></html>';
         $document = Document::loadHtml($html);
@@ -260,7 +260,7 @@ class DocumentNodeTest extends TestCase
         ];
     }
 
-    public function test_set_text(): void
+    public function testSetText(): void
     {
         $document = Document::loadHtml('<html><body><div>Original text</div></body></html>');
         $node = $document->query('div', fn ($q) => null, true)->first();
@@ -270,7 +270,7 @@ class DocumentNodeTest extends TestCase
         $this->assertEquals('New text', $node->text());
     }
 
-    public function test_set_text_replaces_all_content(): void
+    public function testSetTextReplacesAllContent(): void
     {
         $document = Document::loadHtml('<html><body><div>Text with <span>nested</span> content</div></body></html>');
         $node = $document->query('div', fn ($q) => null, true)->first();
@@ -282,7 +282,7 @@ class DocumentNodeTest extends TestCase
         $this->assertNull($result);
     }
 
-    public function test_document_returns_parent_document(): void
+    public function testDocumentReturnsParentDocument(): void
     {
         $document = Document::loadHtml('<html><body><div>Test</div></body></html>');
         $node = $document->query('div', fn ($q) => null, true)->first();
