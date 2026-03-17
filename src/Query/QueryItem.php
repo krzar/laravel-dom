@@ -8,9 +8,9 @@ readonly class QueryItem
 {
     public function __construct(
         private string $attribute,
-        private string $operator = '=',
+        private Operator $operator = Operator::EQUALS,
         private ?string $value = null,
-        public string $connector = 'and',
+        public Connector $connector = Connector::AND,
     ) {}
 
     public function toQueryString(): string
@@ -18,12 +18,12 @@ readonly class QueryItem
         $attribute = $this->getAttributeSelector();
 
         return match ($this->operator) {
-            'contains' => sprintf('contains(%s, "%s")', $attribute, $this->value),
-            'has' => sprintf('%s', $attribute),
-            '!contains' => sprintf('not(contains(%s, "%s"))', $attribute, $this->value),
-            '!has' => sprintf('not(%s)', $attribute),
-            '!=' => sprintf('not(%s = "%s")', $attribute, $this->value),
-            default => sprintf('%s = "%s"', $attribute, $this->value)
+            Operator::CONTAINS => sprintf('contains(%s, "%s")', $attribute, $this->value),
+            Operator::HAS => sprintf('%s', $attribute),
+            Operator::NOT_CONTAINS => sprintf('not(contains(%s, "%s"))', $attribute, $this->value),
+            Operator::NOT_HAS => sprintf('not(%s)', $attribute),
+            Operator::NOT_EQUALS => sprintf('not(%s = "%s")', $attribute, $this->value),
+            Operator::EQUALS => sprintf('%s = "%s"', $attribute, $this->value),
         };
     }
 

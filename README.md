@@ -11,8 +11,10 @@ You can get the first queried Element/Node or Collection of Elements/Nodes.
 
 ## Requirements
 
-- Laravel 12+
-- PHP 8.2+ (with **ext-dom**)
+| Version | Laravel     | PHP       | Supported          | 
+|---------|-------------|-----------|--------------------|
+| 2.x     | 12.x - 13.x | 8.3 - 8.5 | :white_check_mark: |
+| 1.x     | 12.x        | 8.2 - 8.5 | :white_check_mark: |
 
 ## Installation
 
@@ -49,15 +51,19 @@ $elements = $document->query('div', function(Query $query) {
 
 ### Available selectors
 
+> [!CAUTION]
+> Using string values instead enum is deprecated and will be removed in the next major release.
+
 #### equals (default)
 
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
-    $query->where('class', '=', 'searched-class');
+    $query->where('class', Operator::EQUALS, 'searched-class');
 })->get();
 
 // OR
@@ -72,10 +78,11 @@ $elements = $document->query('div', function(Query $query) {
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
-    $query->where('class', 'contains', 'searched-class');
+    $query->where('class', Operator::CONTAINS, 'searched-class');
 })->get();
 
 // OR
@@ -91,10 +98,11 @@ $elements = $document->query('div', function(Query $query) {
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
-    $query->where('class', '!=', 'searched-class');
+    $query->where('class', Operator::NOT_EQUALS, 'searched-class');
 })->get();
 
 // OR
@@ -109,10 +117,11 @@ $elements = $document->query('div', function(Query $query) {
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
-    $query->where('class', '!contains', 'searched-class');
+    $query->where('class', Operator::NOT_CONTAINS, 'searched-class');
 })->get();
 
 // OR
@@ -127,28 +136,38 @@ $elements = $document->query('div', function(Query $query) {
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
     $query->whereHas('id');
 })->get();
-```
 
-You can also use `where('id', 'has')`
+// OR
+
+$elements = $document->query('div', function(Query $query) {
+    $query->where('id', Operator::HAS);
+})->get();
+```
 
 #### not has
 
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
     $query->whereNotHas('id');
 })->get();
-```
 
-You can also use `where('id', '!has')`
+// OR
+
+$elements = $document->query('div', function(Query $query) {
+    $query->where('id', Operator::NOT_HAS);
+})->get();
+```
 
 ### Advanced examples
 
@@ -157,10 +176,11 @@ You can also use `where('id', '!has')`
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
-    $query->where('class', 'contains', 'searched-class')
+    $query->where('class', Operator::CONTAINS, 'searched-class')
         ->orWhereHas('id');
 })->query('a', function(Query $query) {
     $query->whereHas('href')
@@ -235,10 +255,11 @@ You can also query text content of an element.
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
-    $query->where('class', 'contains', 'searched-class')
+    $query->where('class', Operator::CONTAINS, 'searched-class')
         ->whereText('Some text');
 }
 )->get();
@@ -266,10 +287,11 @@ For example:
 ```php
 use KrZar\LaravelDom\Document;
 use KrZar\LaravelDom\Query\Query;
+use KrZar\LaravelDom\Query\Operator;
 
 $document = Document::loadHtml($html);
 $elements = $document->query('div', function(Query $query) {
-    $query->where('class', 'contains', 'searched-class')
+    $query->where('class', Operator::CONTAINS, 'searched-class')
         ->whereTextContains('Some text', true);
 }
 )->get();

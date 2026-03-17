@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KrZar\LaravelDom\Tests\Unit\Query;
 
+use KrZar\LaravelDom\Exception\NullValueException;
 use KrZar\LaravelDom\Query\Query;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -70,6 +71,14 @@ class QueryTest extends TestCase
 
         $expected = '/div[(@class = "container" or @id = "main")]';
         $this->assertEquals($expected, $query->toQueryString());
+    }
+
+    public function test_throw_exception_for_null_value(): void
+    {
+        $query = new Query('div', false);
+
+        $this->expectException(NullValueException::class);
+        $query->where('class');
     }
 
     public static function basicQueryProvider(): \Generator
