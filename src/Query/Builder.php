@@ -31,19 +31,21 @@ class Builder
 
     public function query(
         string $tag,
-        \Closure $closure,
+        ?\Closure $closure = null,
         bool $deep = false,
     ): static {
         $itemBuilder = new Query($tag, $deep);
 
-        $closure($itemBuilder);
+        if ($closure) {
+            $closure($itemBuilder);
+        }
 
         $this->queries[] = $itemBuilder;
 
         return $this;
     }
 
-    public function queryDeep(string $tag, \Closure $closure): static
+    public function queryDeep(string $tag, ?\Closure $closure = null): static
     {
         return $this->query($tag, $closure, true);
     }
