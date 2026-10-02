@@ -107,13 +107,13 @@ class DocumentNode
 
     public function query(
         string $tag,
-        \Closure $closure,
+        ?\Closure $closure = null,
         bool $deep = false,
     ): Builder {
         return $this->builder->query($tag, $closure, $deep);
     }
 
-    public function queryDeep(string $tag, \Closure $closure): Builder
+    public function queryDeep(string $tag, ?\Closure $closure = null): Builder
     {
         return $this->builder->queryDeep($tag, $closure);
     }
